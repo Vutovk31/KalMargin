@@ -1,0 +1,20 @@
+{
+  "name": "kalmargin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 8000 --bind 127.0.0.1",
+    "lint": "eslint src tests playwright.config.js scripts .github --no-error-on-unmatched-pattern",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "playwright test",
+    "build": "node scripts/build.js",
+    "fixtures": "node scripts/fixtures.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "eslint": "9.39.1",
+    "fast-check": "4.3.0"
+  },
+  "engines": {"node": ">=22"}
+}
