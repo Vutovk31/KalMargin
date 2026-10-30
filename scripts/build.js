@@ -1,0 +1,10 @@
+import { cpSync, mkdirSync, rmSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const expected = readFileSync('vendor/SHA256SUMS', 'utf8').trim().split(/\s+/)[0];
+const actual = createHash('sha256').update(readFileSync('vendor/xlsx-0.18.5.min.js')).digest('hex');
+if (expected !== actual) throw new Error('Vendor integrity check failed');
+const html = readFileSync('index.html', 'utf8');
+if (/https?:\/\//.test(html)) throw new Error('Unexpected external HTML dependency');
+rmSync('dist', { recursive: true, force: true }); mkdirSync('dist');
+for (const file of ['index.html', 'src', 'vendor']) cpSync(file, 'dist/' + file, { recursive: true });
+console.log('Static build complete; local dependency SHA-256 verified.');
